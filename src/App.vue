@@ -21,3 +21,13 @@ export default {
   components: { router }
 }
 </script>
+
+<!-- scoped 只作用于App.vue这个页面 去掉的话是所有的 -->
+<style lang="less">
+html,
+body,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+</style>

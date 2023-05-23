@@ -1,10 +1,11 @@
 <template>
     <el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose"
-        :collapse="isCollapse">
+        :collapse="isCollapse" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
         <!-- 没有子菜单 -->
         <!-- :key 是唯一且固定的值 -->
         <!-- : 等价于 v-bind -->
-        <el-menu-item v-for="item in  noChildren " :key="item.name" :index="item.name">
+        <h3>通用后台管理系统</h3>
+        <el-menu-item @click="clickMenu(item)" v-for="item in noChildren " :key="item.name" :index="item.name">
             <!-- 图标 el-icon-menu 前面这些是不变的 然后进行拼接即可 -->
             <!-- `el-icon-${ item.icon }` 是ES6的语法 -->
             <!-- :class 表示的是动态class -->
@@ -19,16 +20,27 @@
                 <span slot="title">{{ item.label }}</span>
             </template>
             <el-menu-item-group v-for="subItem in item.children" :key="subItem.path">
-                <el-menu-item :index="subItem.path">{{ subItem.label }}</el-menu-item>
+                <el-menu-item @click="clickMenu(subItem)" :index="subItem.path">{{ subItem.label }}</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
     </el-menu>
 </template>
-
-<style>
+<style lang="less" scoped>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+}
+
+.el-menu {
+    height: 100vh;
+
+    h3 {
+        color: #fff;
+        text-align: center;
+        line-height: 48px;
+        font-size: 16px;
+        font-weight: 400px;
+    }
 }
 </style>
 
@@ -88,6 +100,11 @@ export default {
         },
         handleClose(key, keyPath) {
             console.log(key, keyPath);
+        },
+        // 点击菜单跳转到对应的路由
+        clickMenu(item) {
+            // this 是vue实例 $router App.vue 已经引入了
+            this.$router.push(item.path)
         }
     },
     // 对数据进行过滤 然后v-for进行遍历
