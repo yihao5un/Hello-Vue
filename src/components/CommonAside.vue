@@ -26,7 +26,7 @@
     </el-menu>
 </template>
 <style lang="less" scoped>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
+.el-menu-vertical-demo:not(.el-menu--collap se) {
     width: 200px;
     min-height: 400px;
 }
@@ -104,7 +104,11 @@ export default {
         // 点击菜单跳转到对应的路由
         clickMenu(item) {
             // this 是vue实例 $router App.vue 已经引入了
-            this.$router.push(item.path)
+            // 当页面路由与跳转的路由不一致的时候才允许跳转
+            // $route 表示的是当前页面的路由 而$router表示的是整个的router实例
+            if (this.$route.path !== item.path && !(this.$route.path === '/home' && (item.path === '/'))) {
+                this.$router.push(item.path)
+            }
         }
     },
     // 对数据进行过滤 然后v-for进行遍历
