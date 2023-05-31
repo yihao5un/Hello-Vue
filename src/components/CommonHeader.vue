@@ -1,7 +1,7 @@
 <template>
     <div class="header-container">
         <div class="l-content">
-            <el-button icon="el-icon-menu" size="mini"></el-button>
+            <el-button @click="handleMenu" icon="el-icon-menu" size="mini"></el-button>
             <!-- 面包屑 -->
             <span class="text">首页</span>
         </div>
@@ -19,10 +19,15 @@
     </div>
 </template>
 <script>
+
 export default {
     data() {
-        return {
-
+        return {}
+    },
+    methods: {
+        handleMenu() {
+            // this.$store 因为main.js中已经挂载到Vue实例了
+            this.$store.commit('collapseMenu'); // 调用 mutations中的collapseMenu方法
         }
     }
 }

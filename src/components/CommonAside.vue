@@ -48,7 +48,7 @@
 export default {
     data() {
         return {
-            isCollapse: false,
+            // isCollapse: false,
             menuData: [
                 {
                     path: '/',
@@ -120,6 +120,9 @@ export default {
         // 2. 有子菜单
         hasChildren() {
             return this.menuData.filter(item => item.children)
+        },
+        isCollapse() {
+            return this.$store.state.tab.isCollapse
         }
     }
 }
