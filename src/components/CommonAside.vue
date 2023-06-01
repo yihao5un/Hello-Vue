@@ -4,7 +4,7 @@
         <!-- 没有子菜单 -->
         <!-- :key 是唯一且固定的值 -->
         <!-- : 等价于 v-bind -->
-        <h3>通用后台管理系统</h3>
+        <h3>{{ isCollapse ? '后台' : '通用后台管理系统' }}</h3>
         <el-menu-item @click="clickMenu(item)" v-for="item in noChildren " :key="item.name" :index="item.name">
             <!-- 图标 el-icon-menu 前面这些是不变的 然后进行拼接即可 -->
             <!-- `el-icon-${ item.icon }` 是ES6的语法 -->
@@ -127,3 +127,8 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+.el-menu {
+    border-right: none;
+}
+</style>

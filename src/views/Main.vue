@@ -1,7 +1,8 @@
 <template>
     <div>
         <el-container>
-            <el-aside width="200px">
+            <!-- auto 自适应 -->
+            <el-aside width="auto">
                 <!-- 用小驼峰命名下面引用的组件 -->
                 <common-aside />
             </el-aside>
