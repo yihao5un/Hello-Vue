@@ -26,10 +26,11 @@
     </el-menu>
 </template>
 <style lang="less" scoped>
-.el-menu-vertical-demo:not(.el-menu--collap se) {
+.el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
 }
+
 
 .el-menu {
     height: 100vh;
@@ -122,6 +123,7 @@ export default {
             return this.menuData.filter(item => item.children)
         },
         isCollapse() {
+            debugger
             return this.$store.state.tab.isCollapse
         }
     }
