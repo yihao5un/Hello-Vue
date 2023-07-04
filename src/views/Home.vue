@@ -27,7 +27,8 @@
 
                     <!-- 可以定义一个标签tableLabel去遍历 -->
                     <!-- :prop :label 是动态属性 -->
-                    <el-table-column v-for="(val, key) in tableLabel" :prop="key" :label="val" />
+                    <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val" />
+
                 </el-table>
             </el-card>
         </el-col>
@@ -47,8 +48,10 @@
         </el-col>
     </el-row>
 </template>
-
 <script>
+// ES6 getData 解构出来
+import { getData } from '../api'
+
 export default {
     data() {
         return {
@@ -135,6 +138,9 @@ export default {
                 },
             ]
         }
+    },
+    mounted() {
+        getData().then((data) => { console.log(data) })
     }
 }
 </script>
