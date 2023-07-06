@@ -8,7 +8,7 @@
         <div class="r-content">
             <el-dropdown>
                 <span class="el-dropdown-link">
-                    <img class="user" src="../assets/images/user.png" alt="">
+                    <img class="user" src="../assets/images/user-default.png" alt="">
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>个人中心</el-dropdown-item>

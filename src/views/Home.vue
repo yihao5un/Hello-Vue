@@ -1,11 +1,11 @@
 <template>
     <el-row>
-        <el-col :span="8">
+        <el-col :span="8" style="padding-right: 10px">
             <el-card class="box-card">
                 <div class="user">
                     <img src="../assets/images/user.png" alt="">
                     <div class="userinfo">
-                        <p class="name">Admin</p>
+                        <p class="name">Administrator</p>
                         <p class="access">超级管理员</p>
                     </div>
                 </div>
@@ -28,11 +28,10 @@
                     <!-- 可以定义一个标签tableLabel去遍历 -->
                     <!-- :prop :label 是动态属性 -->
                     <el-table-column v-for="(val, key) in tableLabel" :key="key" :prop="key" :label="val" />
-
                 </el-table>
             </el-card>
         </el-col>
-        <el-col :span="16">
+        <el-col :span="16" style="padding-left: 10px">
             <div class="num">
                 <!-- :body-style="{ display: 'flex' } 设置flex 左右布局 -->
                 <el-card v-for="item in  countData " :key="item.name" :body-style="{ display: 'flex', padding: 0 }">
@@ -45,6 +44,14 @@
                     </div>
                 </el-card>
             </div>
+            <el-card style="height;: 280px">
+                <!-- 折线图 -->
+            </el-card>
+            <!-- 左右布局的用 flex -->
+            <div class="graph">
+                <el-card style="height: 260px"></el-card>
+                <el-card style=" height: 260px"></el-card>
+            </div>
         </el-col>
     </el-row>
 </template>
@@ -55,44 +62,7 @@ import { getData } from '../api'
 export default {
     data() {
         return {
-            tableData: [
-                {
-                    name: 'oppo',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                },
-                {
-                    name: 'vivo',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                },
-                {
-                    name: '苹果',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                },
-                {
-                    name: '小米',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                },
-                {
-                    name: '三星',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                },
-                {
-                    name: '魅族',
-                    todayBuy: 100,
-                    monthBuy: 300,
-                    totalBuy: 800
-                }
-            ],
+            tableData: [],
             tableLabel: {
                 name: "课程",
                 todayBuy: "今日购买",
@@ -102,37 +72,37 @@ export default {
             countData: [
                 {
                     name: "今日支付订单",
-                    value: 1234,
+                    value: 1,
                     icon: "success",
                     color: "#2ec7c9",
                 },
                 {
                     name: "今日收藏订单",
-                    value: 210,
+                    value: 5,
                     icon: "star-on",
                     color: "#ffb980",
                 },
                 {
                     name: "今日未支付订单",
-                    value: 1234,
+                    value: 2,
                     icon: "s-goods",
                     color: "#5ab1ef",
                 },
                 {
                     name: "本月支付订单",
-                    value: 1234,
+                    value: 3,
                     icon: "success",
                     color: "#2ec7c9",
                 },
                 {
                     name: "本月收藏订单",
-                    value: 210,
+                    value: 6,
                     icon: "star-on",
                     color: "#ffb980",
                 },
                 {
                     name: "本月未支付订单",
-                    value: 1234,
+                    value: 4,
                     icon: "s-goods",
                     color: "#5ab1ef",
                 },
@@ -140,7 +110,11 @@ export default {
         }
     },
     mounted() {
-        getData().then((data) => { console.log(data) })
+        // { data } 解构拿到 data
+        getData().then(({ data }) => {
+            const { tableData } = data.data
+            this.tableData = tableData
+        })
     }
 }
 </script>
@@ -165,7 +139,8 @@ export default {
     .userinfo {
 
         .name {
-            font-size: 32px;
+            font-size: 28px;
+            font-style: italic;
             margin-bottom: 10px;
         }
 
@@ -212,7 +187,8 @@ export default {
         justify-content: center;
 
         .price {
-            font-size: 30px;
+            font-size: 20px;
+            font-style: italic;
             margin-bottom: 10px;
             line-height: 30px;
             height: 30px;
@@ -228,6 +204,19 @@ export default {
     .el-card {
         width: 32%;
         margin-bottom: 20px;
+    }
+}
+
+.graph {
+    margin-top: 20px;
+    // flex 布局
+    display: flex;
+    // 左右贴边
+    justify-content: space-between;
+
+    // 层级的方式加样式
+    .el-card {
+        width: 48%;
     }
 }
 </style>

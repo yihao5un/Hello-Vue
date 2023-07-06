@@ -123,7 +123,6 @@ export default {
             return this.menuData.filter(item => item.children)
         },
         isCollapse() {
-            debugger
             return this.$store.state.tab.isCollapse
         }
     }
