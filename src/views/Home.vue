@@ -46,6 +46,7 @@
             </div>
             <el-card style="height;: 280px">
                 <!-- 折线图 -->
+                <div ref="echarts1"></div>
             </el-card>
             <!-- 左右布局的用 flex -->
             <div class="graph">
@@ -58,6 +59,7 @@
 <script>
 // ES6 getData 解构出来
 import { getData } from '../api'
+import echarts from 'echarts'
 
 export default {
     data() {
@@ -114,6 +116,27 @@ export default {
         getData().then(({ data }) => {
             const { tableData } = data.data
             this.tableData = tableData
+            // 基于准备好的DOM 初始化echarts的实例
+            const echarts1 = this.$refs.echarts1
+            // 指定图表的配置项和数据
+            var echarts1Option = {
+
+            }
+            // 处理数据XAxis
+            const { orderData } = data.data
+            const xAxis = Object.keys(orderData.data[0])
+            echarts1Option.xAxis = xAxis
+            echarts1Option.legend = {
+                data: xAxis
+            }
+            echarts1Option.series = []
+            xAxis.forEach(key => {
+                echarts1Option.series.push({
+                    name: key,
+                    data: orderData.data.map(item => item[key]),
+                    type: 'line'
+                })
+            })
         })
     }
 }
