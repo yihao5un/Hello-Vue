@@ -46,7 +46,7 @@
             </div>
             <el-card style="height;: 280px">
                 <!-- 折线图 -->
-                <div ref="echarts1"></div>
+                <div ref="echarts1" style="height: 280px;"></div>
             </el-card>
             <!-- 左右布局的用 flex -->
             <div class="graph">
@@ -59,7 +59,8 @@
 <script>
 // ES6 getData 解构出来
 import { getData } from '../api'
-import echarts from 'echarts'
+// 使用  import * as echarts from 'echarts'  可以确保您能够访问到 echarts 库中的所有功能和方法，而  import echarts from 'echarts'  则取决于 echarts 库的具体导出方式。
+import * as echarts from 'echarts'
 
 export default {
     data() {
@@ -117,7 +118,7 @@ export default {
             const { tableData } = data.data
             this.tableData = tableData
             // 基于准备好的DOM 初始化echarts的实例
-            const echarts1 = this.$refs.echarts1
+            const echarts1 = echarts.init(this.$refs.echarts1)
             // 指定图表的配置项和数据
             var echarts1Option = {
 
@@ -125,10 +126,12 @@ export default {
             // 处理数据XAxis
             const { orderData } = data.data
             const xAxis = Object.keys(orderData.data[0])
-            echarts1Option.xAxis = xAxis
-            echarts1Option.legend = {
+            const xAxisData = {
                 data: xAxis
             }
+            echarts1Option.xAxis = xAxisData
+            echarts1Option.yAxis = {}
+            echarts1Option.legend = xAxisData
             echarts1Option.series = []
             xAxis.forEach(key => {
                 echarts1Option.series.push({
@@ -137,6 +140,7 @@ export default {
                     type: 'line'
                 })
             })
+            echarts1.setOption(echarts1Option)
         })
     }
 }
