@@ -110,6 +110,8 @@ export default {
             if (this.$route.path !== item.path && !(this.$route.path === '/home' && (item.path === '/'))) {
                 this.$router.push(item.path)
             }
+            // 调用mutution
+            this.$store.commit('selectMenu', item)
         }
     },
     // 对数据进行过滤 然后v-for进行遍历

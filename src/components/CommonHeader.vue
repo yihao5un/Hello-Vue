@@ -1,9 +1,13 @@
 <template>
     <div class="header-container">
         <div class="l-content">
-            <el-button @click="handleMenu" icon="el-icon-menu" size="mini"></el-button>
+            <el-button style="margin-right: 20px;" @click="handleMenu" icon="el-icon-menu" size="mini"></el-button>
             <!-- 面包屑 -->
-            <span class="text">首页</span>
+            <!-- <span class="text">首页</span> -->
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item v-for="item in tags" :key="item.path" :to="{ path: item.path }">{{ item.label
+                }}</el-breadcrumb-item>
+            </el-breadcrumb>
         </div>
         <div class="r-content">
             <el-dropdown>
@@ -19,6 +23,8 @@
     </div>
 </template>
 <script>
+// 辅助函数
+import { mapState } from "vuex";
 
 export default {
     data() {
@@ -29,6 +35,12 @@ export default {
             // this.$store 因为main.js中已经挂载到Vue实例了
             this.$store.commit('collapseMenu'); // 调用 mutations中的collapseMenu方法
         }
+    },
+    computed: {
+        // ... 扩展运算符 将对象进行解构
+        ...mapState({
+            tags: state => state.tab.tabList
+        })
     }
 }
 </script>
@@ -57,6 +69,33 @@ export default {
             width: 40px;
             height: 40px;
             border-radius: 50%;
+        }
+    }
+
+    .l-content {
+        // 变成一行
+        display: flex;
+        // 垂直居中
+        align-items: center;
+
+        // /deep/ 样式穿刺
+        /deep/.el-breadcrumb_item {
+            .el-breadcrumb_inner {
+
+                // &. 表示 el-breadcrumb_inner & islink
+                &.is-link {
+                    color: #666;
+                }
+
+                font-weight: normal;
+            }
+
+            // css中的伪类
+            &:last-child {
+                el-breadcrumb_inner {
+                    color: #fff;
+                }
+            }
         }
     }
 }

@@ -15,7 +15,7 @@
                 </div>
             </el-card>
             <el-card style="margin-top: 20px;">
-                <el-table :data="tableData" style="width: 100%">
+                <el-table :data="tableData" style="width: 100%;">
                     <!-- <el-table-column prop="name" label="课程">
                     </el-table-column>
                     <el-table-column prop="todayBuy" label="今日购买">
@@ -50,8 +50,13 @@
             </el-card>
             <!-- 左右布局的用 flex -->
             <div class="graph">
-                <el-card style="height: 260px"></el-card>
-                <el-card style=" height: 260px"></el-card>
+                <el-card style="height: 260px">
+                    <div ref="echarts2" style="height: 260px;"></div>
+                </el-card>
+                <el-card style=" height: 260px">
+                    <!-- 由于遮挡住 将 260 -> 240 -->
+                    <div ref="echarts3" style="height: 240px;"></div>
+                </el-card>
             </div>
         </el-col>
     </el-row>
@@ -115,14 +120,14 @@ export default {
     mounted() {
         // { data } 解构拿到 data
         getData().then(({ data }) => {
-            const { tableData } = data.data
+            const { tableData, userData, videoData } = data.data
             this.tableData = tableData
+
+            // 折线图
             // 基于准备好的DOM 初始化echarts的实例
             const echarts1 = echarts.init(this.$refs.echarts1)
             // 指定图表的配置项和数据
-            var echarts1Option = {
-
-            }
+            var echarts1Option = {}
             // 处理数据XAxis
             const { orderData } = data.data
             const xAxis = Object.keys(orderData.data[0])
@@ -141,6 +146,86 @@ export default {
                 })
             })
             echarts1.setOption(echarts1Option)
+
+            // 柱状图
+            const echart2 = echarts.init(this.$refs.echarts2)
+            const echart2Option = {
+                legend: {
+                    // 图例文字颜色
+                    textStyle: {
+                        color: "#333",
+                    },
+                },
+                grid: {
+                    left: "20%",
+                },
+                // 提示框
+                tooltip: {
+                    trigger: "axis",
+                },
+                xAxis: {
+                    type: "category", // 类目轴
+                    data: userData.map(item => item.date),
+                    axisLine: {
+                        lineStyle: {
+                            color: "#17b3a3",
+                        },
+                    },
+                    axisLabel: {
+                        interval: 0,
+                        color: "#333",
+                    },
+                },
+                yAxis: [
+                    {
+                        type: "value",
+                        axisLine: {
+                            lineStyle: {
+                                color: "#17b3a3",
+                            },
+                        },
+                    },
+                ],
+                color: ["#2ec7c9", "#b6a2de"],
+                series: [
+                    {
+                        name: '新增用户',
+                        data: userData.map(item => item.new),
+                        type: 'bar'
+                    },
+                    {
+                        name: '活跃用户',
+                        data: userData.map(item => item.active),
+                        type: 'bar'
+                    }
+                ],
+            }
+            echart2.setOption(echart2Option);
+
+            // 饼状图
+            const echarts3 = echarts.init(this.$refs.echarts3)
+            const echart3Option = {
+                tooltip: {
+                    trigger: "item",
+                },
+                color: [
+                    "#0f78f4",
+                    "#dd536b",
+                    "#9462e5",
+                    "#a6a6a6",
+                    "#e1bb22",
+                    "#39c362",
+                    "#3ed1cf",
+                ],
+                series: [
+                    {
+                        data: videoData,
+                        type: 'pie'
+                    }
+                ],
+            }
+            echarts3.setOption(echart3Option);
+
         })
     }
 }
