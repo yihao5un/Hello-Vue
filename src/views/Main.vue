@@ -11,6 +11,8 @@
                     <!-- 用小驼峰命名下面引用的组件 -->
                     <common-header />
                 </el-header>
+                <!-- Tag 标签 -->
+                <common-tag />
                 <el-main>
                     <h1>我是Main</h1>
                     <!-- 子路由出口 -->
@@ -24,6 +26,8 @@
 // 导入组件
 import CommonAside from '../components/CommonAside.vue'
 import CommonHeader from '../components/CommonHeader.vue'
+import CommonTag from '../components/CommonTag.vue'
+
 export default {
     data() {
         return {
@@ -33,7 +37,8 @@ export default {
     // 引入组件
     components: {
         CommonAside,
-        CommonHeader
+        CommonHeader,
+        CommonTag
     }
 }
 </script>
