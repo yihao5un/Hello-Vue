@@ -29,6 +29,10 @@ export default {
                     state.tabList.push(val)
                 }
             }
+        },
+        // 删除指定的Tag数据
+        closeTag(state, item) {
+            
         }
     }
 }
