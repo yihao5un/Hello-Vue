@@ -32,7 +32,8 @@ export default {
         },
         // 删除指定的Tag数据
         closeTag(state, item) {
-            
+            const index = state.tabList.findIndex(val => val.name === item.name)
+            state.tabList.splice(index, 1)
         }
     }
 }

@@ -72,6 +72,7 @@ export default {
         }
     }
 
+    // TODO 这块的样式有问题
     .l-content {
         // 变成一行
         display: flex;
@@ -81,18 +82,20 @@ export default {
         // /deep/ 样式穿刺
         /deep/.el-breadcrumb_item {
             .el-breadcrumb_inner {
+                font-weight: normal;
 
                 // &. 表示 el-breadcrumb_inner & islink
                 &.is-link {
                     color: #666;
                 }
 
-                font-weight: normal;
+
             }
 
+            // 最后的tag颜色不是白色的
             // css中的伪类
             &:last-child {
-                el-breadcrumb_inner {
+                .el-breadcrumb_inner {
                     color: #fff;
                 }
             }
