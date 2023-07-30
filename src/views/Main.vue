@@ -14,7 +14,6 @@
                 <!-- Tag 标签 -->
                 <common-tag />
                 <el-main>
-                    <h1>我是Main</h1>
                     <!-- 子路由出口 -->
                     <router-view></router-view>
                 </el-main>
