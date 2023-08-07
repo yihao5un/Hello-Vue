@@ -30,13 +30,39 @@
             </span>
         </el-dialog>
         <div class="manage-header">
-            <el-button @click="dialogVisible = true" type="primary">
+            <el-button @click="dialogVisible = true" type="primary" size="small">
                 + 新增
             </el-button>
+            <el-table :data="tableData" stripe style="width: 100%">
+                <el-table-column prop="name" label="姓名">
+                </el-table-column>
+                <el-table-column prop="sexLabel" label="性别">
+                    <template slot-scope="scope">
+                        <i class="el-icon-user"></i>
+                        <span style="margin-left: 10px">
+                            {{ scope.row.sex === 1 ? '男' : '女' }}
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="age" label="年龄">
+                </el-table-column>
+                <el-table-column prop="birth" label="出生日期">
+                </el-table-column>
+                <el-table-column prop="addr" label="地址">
+                </el-table-column>
+                <el-table-column prop="addr" label="操作">
+                    <template slot-scope="scope">
+                        <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
+                        <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
         </div>
     </div>
 </template>
 <script>
+import { getUser } from '../api'
+
 export default {
     data() {
         return {
@@ -79,7 +105,10 @@ export default {
                         message: '请输入地址'
                     }
                 ]
-            }
+            },
+            tableData: [
+
+            ]
         }
     },
     methods: {
@@ -106,7 +135,18 @@ export default {
         cancel() {
             // 调用方法
             this.handleClose()
+        },
+        handleEdit(row) {
+
+        },
+        handleDelete(row) {
+
         }
+    },
+    mounted() {
+        getUser().then(({ data }) => {
+            this.tableData = data.list
+        })
     }
 }
 </script>
