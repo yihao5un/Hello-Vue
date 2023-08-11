@@ -12,12 +12,13 @@
                 </el-form-item>
                 <el-form-item label="性别" prop="sex">
                     <el-select v-model="form.sex" placeholder="请输入">
-                        <el-option label="男" value="1"></el-option>
-                        <el-option label="女" value="0"></el-option>
+                        <!-- :value 改成 v-bind方式 -->
+                        <el-option label="男" :value="1"></el-option>
+                        <el-option label="女" :value="0"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="出生日期" prop="birth">
-                    <el-date-picker v-model="form.birth" type="date" placeholder="选择日期">
+                    <el-date-picker v-model="form.birth" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="地址" prop="addr">
@@ -30,7 +31,7 @@
             </span>
         </el-dialog>
         <div class="manage-header">
-            <el-button @click="dialogVisible = true" type="primary" size="small">
+            <el-button @click="handleAdd" type="primary" size="small">
                 + 新增
             </el-button>
             <el-table :data="tableData" stripe style="width: 100%">
@@ -61,7 +62,7 @@
     </div>
 </template>
 <script>
-import { getUser } from '../api'
+import { getUser, addUser, editUser, delUser } from '../api'
 
 export default {
     data() {
@@ -108,7 +109,8 @@ export default {
             },
             tableData: [
 
-            ]
+            ],
+            modalType: 0 // 0 表示新增的弹窗 1 表示编辑
         }
     },
     methods: {
@@ -116,8 +118,22 @@ export default {
         submit() {
             this.$refs.form.validate((valid) => {
                 if (valid) {
+                    if (this.modalType === 0) {
+                        // 新增
+                        addUser(this.form).then(() => {
+                            // 重新获取列表接口
+                            this.getList()
+                        })
+                    } else {
+                        // 修改
+                        editUser(this.form).then(() => {
+                            // 重新获取列表接口
+                            this.getList()
+                        })
+                    }
                     // 后续对表单数据的获取
                     console.log(this.form, 'form')
+                    // 清空表单的数据
                     this.$refs.form.resetFields()
                     // 关闭弹窗
                     this.dialogVisible = false
@@ -137,16 +153,48 @@ export default {
             this.handleClose()
         },
         handleEdit(row) {
-
+            this.modalType = 1
+            this.dialogVisible = true
+            // 特别注意 不能直接用row 要对当前行数据进行深拷贝
+            // https://blog.csdn.net/weixin_55726815/article/details/131891540
+            this.form = JSON.parse(JSON.stringify(row))
         },
         handleDelete(row) {
-
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                // 调用删除的接口
+                delUser({ id: row.id }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                    // 注意箭头函数作用域的使用
+                    this.getList()
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        },
+        handleAdd(row) {
+            this.modalType = 0
+            this.dialogVisible = true
+        },
+        // 获取列表的数据
+        getList() {
+            getUser().then(({ data }) => {
+                this.tableData = data.list
+            })
         }
     },
+    // 页面首次加载的时候
     mounted() {
-        getUser().then(({ data }) => {
-            this.tableData = data.list
-        })
+        this.getList()
     }
 }
 </script>
