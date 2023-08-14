@@ -7,6 +7,14 @@ import Mall from '../views/Mall.vue'
 import PageOne from '../views/PageOne.vue'
 import PageTwo from '../views/PageTwo.vue'
 
+// https://zhuanlan.zhihu.com/p/364708055
+//获取原型对象上的push函数
+const originalPush = VueRouter.prototype.push
+//修改原型对象中的push方法
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(VueRouter)
 
 // 1. 创建路由组件
