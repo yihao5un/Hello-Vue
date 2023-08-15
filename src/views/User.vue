@@ -34,7 +34,18 @@
             <el-button @click="handleAdd" type="primary" size="small">
                 + 新增
             </el-button>
-            <el-table :data="tableData" stripe style="width: 100%">
+            <!-- form搜索区域 -->
+            <el-form :inline="true" :model="userForm">
+                <el-form-item>
+                    <el-input placeholder="请输入名称" v-model="userForm.name"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="onSubmit">查询</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="common-table">
+            <el-table stripe height="90%" :data="tableData" style="width: 100%">
                 <el-table-column prop="name" label="姓名">
                 </el-table-column>
                 <el-table-column prop="sexLabel" label="性别">
@@ -58,6 +69,11 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="pager">
+                <!-- 注意 事件是@  属性是: -->
+                <el-pagination layout="prev, pager, next" :total="total" @current-change="handlePage">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -108,9 +124,18 @@ export default {
                 ]
             },
             tableData: [
-
             ],
-            modalType: 0 // 0 表示新增的弹窗 1 表示编辑
+            modalType: 0, // 0 表示新增的弹窗 1 表示编辑
+            total: 0, // 当前的总条数 默认为0
+            pageData: {
+                // 从第一页开始
+                page: 1,
+                // 默认显示10条
+                limit: 10
+            },
+            userForm: {
+                name: ''
+            }
         }
     },
     methods: {
@@ -187,9 +212,22 @@ export default {
         },
         // 获取列表的数据
         getList() {
-            getUser().then(({ data }) => {
+            // ES6合并对象处理 { ...this.userForm, ...this.pageData }
+            getUser({ params: { ...this.userForm, ...this.pageData } }).then(({ data }) => {
                 this.tableData = data.list
+                // 赋值total 总数据量
+                this.total = data.count || 0
             })
+        },
+        // 选择页码的回调函数
+        handlePage(val) {
+            this.pageData.page = val
+            // 调用获取数据的方法
+            this.getList()
+        },
+        // 列表搜索条件
+        onSubmit(val) {
+            this.getList()
         }
     },
     // 页面首次加载的时候
@@ -198,3 +236,26 @@ export default {
     }
 }
 </script>
+
+<style lang="less" scoped>
+.manage {
+    height: 90%;
+
+    .manage-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .common-table {
+        position: relative;
+        height: calc(100% - 62px);
+
+        .pager {
+            position: absolute;
+            bottom: 0;
+            right: 20px;
+        }
+    }
+}
+</style>
