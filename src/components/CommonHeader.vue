@@ -80,22 +80,20 @@ export default {
         align-items: center;
 
         // /deep/ 样式穿刺
-        /deep/.el-breadcrumb_item {
-            .el-breadcrumb_inner {
+        /deep/.el-breadcrumb__item {
+            .el-breadcrumb__inner {
                 font-weight: normal;
 
                 // &. 表示 el-breadcrumb_inner & islink
                 &.is-link {
-                    color: #666;
+                    color: #999;
                 }
-
-
             }
 
             // 最后的tag颜色不是白色的
             // css中的伪类
             &:last-child {
-                .el-breadcrumb_inner {
+                .el-breadcrumb__inner {
                     color: #fff;
                 }
             }
