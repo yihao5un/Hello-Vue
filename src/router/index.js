@@ -6,6 +6,7 @@ import Main from '../views/Main.vue'
 import Mall from '../views/Mall.vue'
 import PageOne from '../views/PageOne.vue'
 import PageTwo from '../views/PageTwo.vue'
+import Login from '../views/Login.vue'
 
 // https://zhuanlan.zhihu.com/p/364708055
 //获取原型对象上的push函数
@@ -35,6 +36,11 @@ const routes = [
             { path: 'page1', name: 'page1',component: PageOne }, // 子页面1
             { path: 'page2', name: 'page2',component: PageTwo }, // 子页面2
         ]
+    },
+    // 登录
+    {
+        path: '/login',
+        component: Login
     }
 ]
 
