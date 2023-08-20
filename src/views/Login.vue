@@ -1,5 +1,6 @@
 <template>
-    <el-form ref="form" label-width="70px" :inline="true" class="login-container" :model="form" :rules="rules">
+    <el-form ref="form" label-width="70px" :inline="true" class="login-container" :model="form" :rules="rules"
+        @keyup.enter.native="submit">
         <h3 class="login_title">系统登录</h3>
         <el-form-item label="用户名" prop="username">
             <el-input v-model="form.username" placeholder="请输入账号"></el-input>
@@ -12,6 +13,7 @@
         </el-form-item>
     </el-form>
 </template>
+
 <script>
 import Mock from 'mockjs'
 import Cookie from 'js-cookie'
@@ -37,15 +39,12 @@ export default {
     methods: {
         // 登陆
         submit() {
-            // // token 信息
-            // const token = Mock.Random.guid()
-
             // 校验通过
             this.$refs.form.validate((valid) => {
                 if (valid) {
                     getMenu(this.form).then(({ data }) => {
                         if (data.code === 20000) {
-                            // // 将token信息存入cookie用于不同页面间的通信
+                            // 将token信息存入cookie用于不同页面间的通信
                             Cookie.set('token', data.data.token)
                             // 跳转到首页
                             this.$router.push('/home')
