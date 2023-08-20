@@ -8,11 +8,14 @@
             <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button style="margin-left: 105px; margin-top: 10px;" type="primary">登录</el-button>
+            <el-button @click="submit" style="margin-left: 105px; margin-top: 10px;" type="primary">登录</el-button>
         </el-form-item>
     </el-form>
 </template>
 <script>
+import Mock from 'mockjs'
+import Cookie from 'js-cookie'
+
 export default {
     data() {
         return {
@@ -28,6 +31,17 @@ export default {
                     { required: true, trigger: 'blur', message: '请输入密码' }
                 ]
             }
+        }
+    },
+    methods: {
+        // 登陆
+        submit() {
+            // token 信息
+            const token = Mock.Random.guid()
+            // 将token信息存入cookie用于不同页面间的通信
+            Cookie.set('token', token)
+            // 跳转到首页
+            this.$router.push('/home')
         }
     }
 }
