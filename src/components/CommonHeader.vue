@@ -10,13 +10,13 @@
             </el-breadcrumb>
         </div>
         <div class="r-content">
-            <el-dropdown>
+            <el-dropdown @command="handleClick">
                 <span class="el-dropdown-link">
                     <img class="user" src="../assets/images/user-default.png" alt="">
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item>个人中心</el-dropdown-item>
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item command="cancel">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -24,7 +24,8 @@
 </template>
 <script>
 // 辅助函数
-import { mapState } from "vuex";
+import { mapState } from "vuex"
+import Cookie from 'js-cookie'
 
 export default {
     data() {
@@ -34,6 +35,14 @@ export default {
         handleMenu() {
             // this.$store 因为main.js中已经挂载到Vue实例了
             this.$store.commit('collapseMenu'); // 调用 mutations中的collapseMenu方法
+        },
+        handleClick(command) {
+            if (command === 'cancel') {
+                // 清除cookie中的token
+                Cookie.remove('token')
+                // 跳转到登陆页面
+                this.$router.push('/login')
+            }
         }
     },
     computed: {
