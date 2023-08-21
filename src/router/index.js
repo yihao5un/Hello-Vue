@@ -26,15 +26,11 @@ const routes = [
     {
         path: '/',
         component: Main,
+        name: 'Main',
         // 当路径是/的时候重定向到 Home
         redirect: '/home',
         // 子路由
         children: [
-            { path: 'home', name: 'home', component: Home }, // 主页
-            { path: 'user', name: 'user',component: User }, // 用户管理
-            { path: 'mall', name: 'mall',component: Mall }, // 商品管理
-            { path: 'page1', name: 'page1',component: PageOne }, // 子页面1
-            { path: 'page2', name: 'page2',component: PageTwo }, // 子页面2
         ]
     },
     // 登录

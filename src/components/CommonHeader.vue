@@ -40,6 +40,8 @@ export default {
             if (command === 'cancel') {
                 // 清除cookie中的token
                 Cookie.remove('token')
+                // 清除Cookie中的menu
+                Cookie.remove('menu')
                 // 跳转到登陆页面
                 this.$router.push('/login')
             }

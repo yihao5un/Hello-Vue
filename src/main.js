@@ -43,4 +43,7 @@ new Vue({
   router,
   store, // 创建好了store并且挂载到了vue实例上
   render: h => h(App),
+  created() {
+    store.commit('addMenu', router)    
+  }
 }).$mount('#app')

@@ -68,6 +68,11 @@ export default {
                     menuArray.push(item)
                 }
             })
+            // 路由的动态添加
+            menuArray.forEach(item => { 
+                // 路由的name属性
+                router.addRoute('Main', item)
+            })
         }
     }
 }
