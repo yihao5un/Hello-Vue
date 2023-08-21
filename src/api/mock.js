@@ -10,7 +10,7 @@ Mock.mock('api/home/getData', homeApi.getStatisticalData)
 Mock.mock('api/user/add', 'post', user.createUser);
 Mock.mock('api/user/edit', 'post',user.updateUser);
 Mock.mock('api/user/del', 'post',user.deleteUser);
-Mock.mock(/api\/user\/getUser/, user.getUserList); // 正则
+// Mock.mock(/api\/user\/getUser/, user.getUserList); // 正则 
 
 // 权限拦截器
 Mock.mock(/api\/permission\/getMenu/, 'post',permisssion.getMenu)

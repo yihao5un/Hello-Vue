@@ -8,7 +8,8 @@ export const getData = () => {
 
 export const getUser = (params) => {
     // 返回用户列表
-    return http.get('/user/getUser', params)
+    // return http.get('/user/getUser', params)
+    return http.get('http://localhost:9000/api/users/getUser', params)
 }
 
 export const addUser = (data) => { 
