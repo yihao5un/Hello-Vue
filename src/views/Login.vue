@@ -46,6 +46,10 @@ export default {
                         if (data.code === 20000) {
                             // 将token信息存入cookie用于不同页面间的通信
                             Cookie.set('token', data.data.token)
+                            // 获取菜单的数据 存入store中
+                            this.$store.commit('setMenu', data.data.menu)
+                            // 动态添加路由 传入router实例并给到mutations
+                            this.$store.commit('addMenu', this.$router);
                             // 跳转到首页
                             this.$router.push('/home')
                         } else {
